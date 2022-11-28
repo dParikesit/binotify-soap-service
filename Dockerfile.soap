@@ -1,0 +1,11 @@
+FROM maven:3.8.6-eclipse-temurin-8-alpine AS build
+WORKDIR /app
+COPY src ./src
+COPY pom.xml .
+RUN mvn -B dependency:resolve
+RUN mvn -B clean package
+
+FROM eclipse-temurin:8u352-b08-jdk-ubi9-minimal
+WORKDIR /app
+COPY --from=build /app/target/binotify-soap.jar .
+CMD ["java","-jar","binotify-soap.jar"]
