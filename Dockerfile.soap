@@ -2,9 +2,8 @@ FROM maven:3.8.6-eclipse-temurin-8-alpine AS build
 WORKDIR /app
 COPY src ./src
 COPY pom.xml .
-# RUN mvn -B dependency:resolve
+RUN --mount=type=cache,target=/root/.m2 mvn -B dependency:resolve
 RUN --mount=type=cache,target=/root/.m2 mvn -B clean package
-# RUN mvn -B package
 
 FROM eclipse-temurin:8u352-b08-jdk-ubi9-minimal
 WORKDIR /app
