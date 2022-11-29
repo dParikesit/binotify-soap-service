@@ -55,6 +55,8 @@ public class Logger {
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw e;
+        } finally {
+            System.out.println(this.endpoint + " : " + this.description);
         }
     }
 }

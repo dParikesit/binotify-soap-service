@@ -26,7 +26,7 @@ public class SubService {
         MessageContext mc = context.getMessageContext();
         HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
         HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
-        String ip = String.format("%s", req.getRemoteAddress()).substring(1);
+        String ip = String.format("%s", req.getRemoteAddress());
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
@@ -55,7 +55,7 @@ public class SubService {
         HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
         HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
 
-        String ip = String.format("%s", req.getRemoteAddress()).substring(1);
+        String ip = String.format("%s", req.getRemoteAddress());
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
@@ -84,7 +84,7 @@ public class SubService {
         HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
         HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
 
-        String ip = String.format("%s", req.getRemoteAddress()).substring(1);
+        String ip = String.format("%s", req.getRemoteAddress());
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
