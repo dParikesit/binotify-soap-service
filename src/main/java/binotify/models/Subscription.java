@@ -36,7 +36,7 @@ public class Subscription {
 
     public String subscribe() throws SQLException {
         try {
-            String sql = "INSERT INTO subscription (creator_id, subscriber_id, status) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO subs (creator_id, subscriber_id, status) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setInt(1, this.creator_id);
@@ -51,7 +51,7 @@ public class Subscription {
 
     public String accept() throws SQLException {
         try {
-            String sql = "UPDATE subscription SET status = ? WHERE creator_id = ? AND subscriber_id = ?";
+            String sql = "UPDATE subs SET status = ? WHERE creator_id = ? AND subscriber_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, Status.ACCEPTED.toString());
@@ -66,7 +66,7 @@ public class Subscription {
 
     public String reject() throws SQLException {
         try {
-            String sql = "UPDATE subscription SET status = ? WHERE creator_id = ? AND subscriber_id = ?";
+            String sql = "UPDATE subs SET status = ? WHERE creator_id = ? AND subscriber_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, Status.REJECTED.toString());
@@ -81,7 +81,7 @@ public class Subscription {
 
     public static ResultSet getSubscribe(Integer subscriber_id) throws SQLException {
         try {
-            String sql = "SELECT * FROM subscription WHERE subscriber_id = ?";
+            String sql = "SELECT * FROM subs WHERE subscriber_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setInt(1, subscriber_id);

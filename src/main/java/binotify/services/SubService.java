@@ -1,15 +1,15 @@
 package binotify.services;
 
-import java.sql.SQLException;
-
 import javax.annotation.Resource;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.xml.ws.developer.JAXWSProperties;
+import com.sun.xml.ws.api.message.HeaderList;
 
 import binotify.models.Logger;
 import binotify.models.Subscription;
@@ -25,15 +25,13 @@ public class SubService {
             throws Exception {
         MessageContext mc = context.getMessageContext();
         HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
-
-        Subscription sub = new Subscription(creator_id, subscriber_id);
-        String ip = String.format("%s", req.getRemoteAddress());
+        HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
+        String ip = String.format("%s", req.getRemoteAddress()).substring(1);
         String endpoint = String.format("%s", req.getRequestURI());
-        String apiKey = req.getRequestHeaders().getFirst("apiKey");
-        String clientType = req.getRequestHeaders().getFirst("clientType");
 
         try {
-            Validator.Validate(apiKey, clientType);
+            Validator.ValidateHL(hl);
+            Subscription sub = new Subscription(creator_id, subscriber_id);
             
             String description =  sub.subscribe();
             
@@ -41,8 +39,8 @@ public class SubService {
             log.create();
 
             return description;
-        } catch (Exception e) {
-            String description = e.getMessage();
+        } catch (Exception e) {            
+            String description = "Failed";
 
             Logger log = new Logger(ip, endpoint, description);
             log.create();
@@ -55,15 +53,14 @@ public class SubService {
             throws Exception {
         MessageContext mc = context.getMessageContext();
         HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
+        HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
 
-        Subscription sub = new Subscription(creator_id, subscriber_id);
-        String ip = String.format("%s", req.getRemoteAddress());
+        String ip = String.format("%s", req.getRemoteAddress()).substring(1);
         String endpoint = String.format("%s", req.getRequestURI());
-        String apiKey = req.getRequestHeaders().getFirst("apiKey");
-        String clientType = req.getRequestHeaders().getFirst("clientType");
 
         try {
-            Validator.Validate(apiKey, clientType);
+            Validator.ValidateHL(hl);
+            Subscription sub = new Subscription(creator_id, subscriber_id);
 
             String description = sub.accept();
 
@@ -72,7 +69,7 @@ public class SubService {
 
             return description;
         } catch (Exception e) {
-            String description = e.getMessage();
+            String description = "Failed";
 
             Logger log = new Logger(ip, endpoint, description);
             log.create();
@@ -85,15 +82,14 @@ public class SubService {
             throws Exception {
         MessageContext mc = context.getMessageContext();
         HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
+        HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
 
-        Subscription sub = new Subscription(creator_id, subscriber_id);
-        String ip = String.format("%s", req.getRemoteAddress());
+        String ip = String.format("%s", req.getRemoteAddress()).substring(1);
         String endpoint = String.format("%s", req.getRequestURI());
-        String apiKey = req.getRequestHeaders().getFirst("apiKey");
-        String clientType = req.getRequestHeaders().getFirst("clientType");
 
         try {
-            Validator.Validate(apiKey, clientType);
+            Validator.ValidateHL(hl);
+            Subscription sub = new Subscription(creator_id, subscriber_id);
 
             String description = sub.reject();
 
@@ -102,7 +98,7 @@ public class SubService {
 
             return description;
         } catch (Exception e) {
-            String description = e.getMessage();
+            String description = "Failed";
 
             Logger log = new Logger(ip, endpoint, description);
             log.create();
