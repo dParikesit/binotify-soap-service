@@ -1,0 +1,1 @@
+docker build -t binotify-soap-service -f Dockerfile.soap .
