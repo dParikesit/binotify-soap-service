@@ -92,13 +92,13 @@ public class Subscription {
         }
     }
 
-    public static ResultSet getSubscribe(Integer subscriber_id) throws SQLException {
+    public static ResultSet getSubStatus(Integer creator_id, Integer subscriber_id) throws SQLException {
         try {
-            String sql = "SELECT * FROM subs WHERE subscriber_id = ? AND status = ?";
+            String sql = "SELECT * FROM subs WHERE creator_id = ? AND subscriber_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
-            stmt.setInt(1, subscriber_id);
-            stmt.setString(2, Status.ACCEPTED.toString());
+            stmt.setInt(1, creator_id);
+            stmt.setInt(2, subscriber_id);
             ResultSet rs = stmt.executeQuery();
 
             return rs;
