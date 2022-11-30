@@ -1,0 +1,1 @@
+INSERT INTO subs (creator_id, subscriber_id) VALUES (2, 1);
