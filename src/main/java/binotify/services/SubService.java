@@ -142,7 +142,7 @@ public class SubService {
     }
 
     @WebMethod
-    public String getSubscribe(@WebParam(name = "subscriber_id") Integer subscriber_id) throws Exception {
+    public String getSubStatus(@WebParam(name = "creator_id") Integer creator_id, @WebParam(name = "subscriber_id") Integer subscriber_id) throws Exception {
         MessageContext mc = context.getMessageContext();
         HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
         HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
@@ -153,7 +153,7 @@ public class SubService {
         try {
             Validator.ValidateHL(hl);
 
-            ResultSet rs = Subscription.getSubscribe(subscriber_id);
+            ResultSet rs = Subscription.getSubStatus(creator_id, subscriber_id);
 
             JSONObject json = new JSONObject(DSL.using(DbConn.getConnection()).fetch(rs).formatJSON());
 
