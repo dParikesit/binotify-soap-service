@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.JSONObject;
+
 import binotify.database.DbConn;
+import binotify.utils.HTTPWrapper;
 
 public class Subscription {
     private static Connection conn = DbConn.getConnection();
@@ -50,6 +53,7 @@ public class Subscription {
     }
 
     public String accept() throws SQLException {
+        String response = "";
         try {
             String sql = "UPDATE subs SET status = ? WHERE creator_id = ? AND subscriber_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -58,13 +62,28 @@ public class Subscription {
             stmt.setInt(2, this.creator_id);
             stmt.setInt(3, this.subscriber_id);
             stmt.executeUpdate();
-            return "Subscription accepted";
+
+            response = "Subscription accepted";
+
+            JSONObject body = new JSONObject();
+            body.put("creator_id", this.creator_id);
+            body.put("subscriber_id", this.subscriber_id);
+            body.put("status", Status.ACCEPTED.toString());
+            Integer code = HTTPWrapper.createJSONRequest("http://php:80/chStatus", "POST", body.toString());
+
+            response += " callback status: " + code;
+
+            return response;
         } catch (SQLException e) {
+            if (response.isEmpty()) {
+                return response;
+            }
             throw e;
         }
     }
 
     public String reject() throws SQLException {
+        String response = "";
         try {
             String sql = "UPDATE subs SET status = ? WHERE creator_id = ? AND subscriber_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -73,8 +92,22 @@ public class Subscription {
             stmt.setInt(2, this.creator_id);
             stmt.setInt(3, this.subscriber_id);
             stmt.executeUpdate();
-            return "Subscription rejected";
+
+            response = "Subscription rejected";
+
+            JSONObject body = new JSONObject();
+            body.put("creator_id", this.creator_id);
+            body.put("subscriber_id", this.subscriber_id);
+            body.put("status", Status.REJECTED.toString());
+            Integer code = HTTPWrapper.createJSONRequest("http://php:80/chStatus", "POST", body.toString());
+
+            response += " callback status: " + code;
+
+            return response;
         } catch (SQLException e) {
+            if (response.isEmpty()) {
+                return response;
+            }
             throw e;
         }
     }
