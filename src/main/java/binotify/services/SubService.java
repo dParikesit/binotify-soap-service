@@ -1,5 +1,7 @@
 package binotify.services;
 
+import java.sql.ResultSet;
+
 import javax.annotation.Resource;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -7,10 +9,14 @@ import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
+import org.jooq.impl.DSL;
+import org.json.JSONObject;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.xml.ws.developer.JAXWSProperties;
 import com.sun.xml.ws.api.message.HeaderList;
 
+import binotify.database.DbConn;
 import binotify.models.Logger;
 import binotify.models.Subscription;
 import binotify.models.Validator;
@@ -40,7 +46,36 @@ public class SubService {
 
             return description;
         } catch (Exception e) {            
-            String description = "Failed";
+            String description = "Req Subscribe Failed";
+
+            Logger log = new Logger(ip, endpoint, description);
+            log.create();
+            throw e;
+        }
+    }
+
+    @WebMethod
+    public String getPending() 
+            throws Exception {
+        MessageContext mc = context.getMessageContext();
+        HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
+        HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
+        String ip = String.format("%s", req.getRemoteAddress());
+        String endpoint = String.format("%s", req.getRequestURI());
+
+        try {
+            Validator.ValidateHL(hl);
+
+            ResultSet rs = Subscription.getPendingFunc();
+
+            JSONObject json = new JSONObject(DSL.using(DbConn.getConnection()).fetch(rs).formatJSON());
+            
+            Logger log = new Logger(ip, endpoint, "Get Pending Success");
+            log.create();
+
+            return json.toString();
+        } catch (Exception e) {            
+            String description = "Get Pending Failed";
 
             Logger log = new Logger(ip, endpoint, description);
             log.create();
@@ -69,7 +104,7 @@ public class SubService {
 
             return description;
         } catch (Exception e) {
-            String description = "Failed";
+            String description = "Accept Subs Failed";
 
             Logger log = new Logger(ip, endpoint, description);
             log.create();
@@ -98,7 +133,36 @@ public class SubService {
 
             return description;
         } catch (Exception e) {
-            String description = "Failed";
+            String description = "Reject Subs Failed";
+
+            Logger log = new Logger(ip, endpoint, description);
+            log.create();
+            throw e;
+        }
+    }
+
+    @WebMethod
+    public String getSubscribe(@WebParam(name = "subscriber_id") Integer subscriber_id) throws Exception {
+        MessageContext mc = context.getMessageContext();
+        HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
+        HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
+        String ip = String.format("%s", req.getRemoteAddress());
+        String endpoint = String.format("%s", req.getRequestURI());
+
+        System.out.println("getSubscribe " + subscriber_id);
+        try {
+            Validator.ValidateHL(hl);
+
+            ResultSet rs = Subscription.getSubscribe(subscriber_id);
+
+            JSONObject json = new JSONObject(DSL.using(DbConn.getConnection()).fetch(rs).formatJSON());
+
+            Logger log = new Logger(ip, endpoint, "Get Subscribe Success");
+            log.create();
+
+            return json.toString();
+        } catch (Exception e) {
+            String description = "Get Subscribe Failed";
 
             Logger log = new Logger(ip, endpoint, description);
             log.create();

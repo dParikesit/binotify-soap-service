@@ -52,6 +52,11 @@
 			<artifactId>json</artifactId>
 			<version>20210307</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
+			<version>3.11.11</version>
+		</dependency>
     </dependencies>
 
 	<packaging>jar</packaging>

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import binotify.database.DbConn;
 
 public class Subscription {
-    private static Connection conn = null;
+    private static Connection conn = DbConn.getConnection();
 
     private Integer creator_id;
     private Integer subscriber_id;
@@ -78,13 +78,27 @@ public class Subscription {
             throw e;
         }
     }
+    
+    public static ResultSet getPendingFunc() throws SQLException {
+        try {
+            String sql = "SELECT * FROM subs WHERE status = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, Status.PENDING.toString());
+            ResultSet rs = stmt.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
 
     public static ResultSet getSubscribe(Integer subscriber_id) throws SQLException {
         try {
-            String sql = "SELECT * FROM subs WHERE subscriber_id = ?";
+            String sql = "SELECT * FROM subs WHERE subscriber_id = ? AND status = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setInt(1, subscriber_id);
+            stmt.setString(2, Status.ACCEPTED.toString());
             ResultSet rs = stmt.executeQuery();
 
             return rs;
