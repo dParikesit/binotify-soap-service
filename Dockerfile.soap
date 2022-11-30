@@ -7,12 +7,11 @@ RUN --mount=type=cache,target=/root/.m2 mvn -B clean package
 
 FROM eclipse-temurin:8u352-b08-jdk-ubi9-minimal
 WORKDIR /app
+EXPOSE 80
 COPY .env .
 COPY --from=build /app/target/binotify-soap.jar .
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait .
 RUN chmod +x wait
-RUN /app/wait
 
-EXPOSE 80
-CMD ["java","-jar","binotify-soap.jar"]
+CMD /app/wait && java -jar binotify-soap.jar
