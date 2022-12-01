@@ -149,11 +149,38 @@ public class SubService {
         String ip = String.format("%s", req.getRemoteAddress());
         String endpoint = String.format("%s", req.getRequestURI());
 
-        System.out.println("getSubscribe " + subscriber_id);
         try {
             Validator.ValidateHL(hl);
 
             ResultSet rs = Subscription.getSubStatus(creator_id, subscriber_id);
+
+            JSONObject json = new JSONObject(DSL.using(DbConn.getConnection()).fetch(rs).formatJSON());
+
+            Logger log = new Logger(ip, endpoint, "Get Subscribe Success");
+            log.create();
+
+            return json.toString();
+        } catch (Exception e) {
+            String description = "Get Subscribe Failed";
+
+            Logger log = new Logger(ip, endpoint, description);
+            log.create();
+            throw e;
+        }
+    }
+
+    @WebMethod
+    public String getSubStatusBatch(@WebParam(name = "subscriber_id") Integer subscriber_id) throws Exception {
+        MessageContext mc = context.getMessageContext();
+        HttpExchange req = (HttpExchange) mc.get(JAXWSProperties.HTTP_EXCHANGE);
+        HeaderList hl = (HeaderList) mc.get(JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
+        String ip = String.format("%s", req.getRemoteAddress());
+        String endpoint = String.format("%s", req.getRequestURI());
+
+        try {
+            Validator.ValidateHL(hl);
+
+            ResultSet rs = Subscription.getSubStatusBatch(subscriber_id);
 
             JSONObject json = new JSONObject(DSL.using(DbConn.getConnection()).fetch(rs).formatJSON());
 

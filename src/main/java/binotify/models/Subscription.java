@@ -140,4 +140,18 @@ public class Subscription {
         }
     }
 
+    public static ResultSet getSubStatusBatch(Integer subscriber_id) throws SQLException {
+        try {
+            String sql = "SELECT * FROM subs WHERE subscriber_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, subscriber_id);
+            ResultSet rs = stmt.executeQuery();
+
+            return rs;
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+
 }
