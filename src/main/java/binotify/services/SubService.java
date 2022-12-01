@@ -184,12 +184,12 @@ public class SubService {
 
             JSONObject json = new JSONObject(DSL.using(DbConn.getConnection()).fetch(rs).formatJSON());
 
-            Logger log = new Logger(ip, endpoint, "Get Subscribe Success");
+            Logger log = new Logger(ip, endpoint, "Get Batch Subscribe Success");
             log.create();
 
             return json.toString();
         } catch (Exception e) {
-            String description = "Get Subscribe Failed";
+            String description = "Get Batch Subscribe Failed";
 
             Logger log = new Logger(ip, endpoint, description);
             log.create();
