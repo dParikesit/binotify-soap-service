@@ -3,6 +3,9 @@
 Aplikasi ini dibuat untuk pemenuhan Tugas Besar 2 IF3110 Web Based Development tahun 2022/2023.
 Aplikasi ini digunakan sebagai SOAP endpoint.
 
+#### Deskripsi Singkat
+Web service merupakan aplikasi yang berisi sekumpulan basis data (database) dan perangkat lunak (software) atau bagian dari program perangkat lunak yang diakses secara remote oleh piranti dengan perantara tertentu. SOAP (Simple Object Access Protocol) adalah standar untuk bertukar pesan-pesan berbasis XML melalui jaringan komputer atau sebuah jalan untuk program yang berjalan pada suatu sistem operasi (OS) untuk berkomunikasi dengan program pada OS yang sama maupun berbeda dengan menggunakan HTTP dan XML sebagai mekanisme untuk pertukaran data, maka SOAP dapat berkomunikasi dengan berbagai aplikasi meskipun terdapat perbedaan sistem operasi, teknologi, dan bahasa pemrogramannya. 
+
 ## Requirement
 - Docker dan docker-compose 3.9
 - Java 8 (jika tidak pakai docker)
@@ -27,9 +30,6 @@ mvn -B dependency:resolve
 mvn -B clean package
 java -jar target/binotify-soap.jar
 ```
-
-#### Deskripsi Singkat
-Web service merupakan aplikasi yang berisi sekumpulan basis data (database) dan perangkat lunak (software) atau bagian dari program perangkat lunak yang diakses secara remote oleh piranti dengan perantara tertentu. SOAP (Simple Object Access Protocol) adalah standar untuk bertukar pesan-pesan berbasis XML melalui jaringan komputer atau sebuah jalan untuk program yang berjalan pada suatu sistem operasi (OS) untuk berkomunikasi dengan program pada OS yang sama maupun berbeda dengan menggunakan HTTP dan XML sebagai mekanisme untuk pertukaran data, maka SOAP dapat berkomunikasi dengan berbagai aplikasi meskipun terdapat perbedaan sistem operasi, teknologi, dan bahasa pemrogramannya. 
 
 #### Database
 ```
