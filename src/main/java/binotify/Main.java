@@ -1,11 +1,6 @@
 package binotify;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import javax.xml.ws.Endpoint;
-
-import binotify.database.DbConn;
 
 public class Main {
     public static void main(String[] args) {
