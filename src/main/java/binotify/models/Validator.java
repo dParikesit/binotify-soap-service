@@ -34,7 +34,7 @@ public class Validator {
         }
     }
 
-    public static void ValidateHL(HeaderList hl) throws SQLException, ApiKeyException {
+    public static void ValidateHL(HeaderList hl, String supposedType) throws SQLException, ApiKeyException {
         try {
             if (conn == null) {
                 conn = DbConn.getConnection();
@@ -51,6 +51,10 @@ public class Validator {
                 if (h.getLocalPart().equals("clientType")) {
                     clientType = h.getStringContent();
                 }
+            }
+
+            if (!supposedType.equals("") && !supposedType.equals(clientType)) {
+                throw new ApiKeyException("Invalid key");
             }
 
             String sql = "SELECT * FROM apikey WHERE api_key = ? AND client_type = ?";

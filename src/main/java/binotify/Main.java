@@ -16,17 +16,5 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         } 
-        // finally {
-        //     Connection conn = DbConn.getConnection();
-        //     try {
-        //         if (conn != null) {
-        //             conn.close();
-        //         }
-        //     } catch (SQLException e) {
-        //         System.err.println("Something happened: " + e);
-        //         e.printStackTrace();
-        //     }
-
-        // }
     }
 }

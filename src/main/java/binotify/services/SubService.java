@@ -36,7 +36,7 @@ public class SubService {
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
-            Validator.ValidateHL(hl);
+            Validator.ValidateHL(hl, "FRONTEND");
             Subscription sub = new Subscription(creator_id, subscriber_id);
             
             String description =  sub.subscribe();
@@ -64,7 +64,7 @@ public class SubService {
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
-            Validator.ValidateHL(hl);
+            Validator.ValidateHL(hl, "REST");
 
             ResultSet rs = Subscription.getPendingFunc();
 
@@ -94,7 +94,7 @@ public class SubService {
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
-            Validator.ValidateHL(hl);
+            Validator.ValidateHL(hl, "REST");
             Subscription sub = new Subscription(creator_id, subscriber_id);
 
             String description = sub.accept();
@@ -123,7 +123,7 @@ public class SubService {
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
-            Validator.ValidateHL(hl);
+            Validator.ValidateHL(hl, "REST");
             Subscription sub = new Subscription(creator_id, subscriber_id);
 
             String description = sub.reject();
@@ -150,7 +150,7 @@ public class SubService {
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
-            Validator.ValidateHL(hl);
+            Validator.ValidateHL(hl, "");
 
             ResultSet rs = Subscription.getSubStatus(creator_id, subscriber_id);
 
@@ -178,7 +178,7 @@ public class SubService {
         String endpoint = String.format("%s", req.getRequestURI());
 
         try {
-            Validator.ValidateHL(hl);
+            Validator.ValidateHL(hl, "FRONTEND");
 
             ResultSet rs = Subscription.getSubStatusBatch(subscriber_id);
 
